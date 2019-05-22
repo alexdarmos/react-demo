@@ -1,26 +1,65 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import PropTypes from 'prop-types';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+
+//const App = () => <h1>Stateless Component</h1>
+
+//stateful component
+class App extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      txt: 'this is the state txt',
+      cat: 0
+    }
+  }
+
+  update( e ) {
+    this.setState({txt: e.target.value})
+  }
+
+  render() {
+    let txt = this.props.txt
+
+   return (
+     <div>
+       {/* Accessing nested component Heart */}
+   <Button>I <Heart/> React</Button>
+   <h1>Hello</h1>
+   <b>This is how you add multiple elements</b>
+   <h1>{txt}</h1>
+
+    <div>
+    <Widget update={this.update.bind(this)}/>
+
+
+   <h1>{this.state.txt} - {this.state.cat}</h1>
+   </div>
+   
+   </div>
+   )
+  }
 }
 
-export default App;
+class Heart extends React.Component {
+  render() {
+    return <span>&hearts;</span>
+  }
+}
+
+App.propTypes = {
+  txt: PropTypes.string,
+  cat: PropTypes.number.isRequired
+}
+
+App.defaultProps = {
+  txt: "this is the default text"
+}
+
+const Widget = (props) => 
+  <input type="text" onChange={props.update}/>
+
+const Button = (props) => <button>{props.children}</button>
+
+
+export default App
